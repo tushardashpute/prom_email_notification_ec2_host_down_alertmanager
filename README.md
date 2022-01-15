@@ -32,12 +32,12 @@ Steps
  
  To extract the metrics of ec2/linux instance we need to istall node-exporter on that instance, it will fetch the metrics at /metrics endpoint.
 
-cd /opt/PROM
-wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
-mv  node_exporter-1.3.1.linux-amd64 node_exporter
-cd node_exporter
-./node_exporter &
+    cd /opt/PROM
+    wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+    tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
+    mv  node_exporter-1.3.1.linux-amd64 node_exporter
+    cd node_exporter
+    ./node_exporter &
 
 Once node exporter is installed we can see metrics using : 
 
@@ -47,36 +47,37 @@ Once node exporter is installed we can see metrics using :
 
 Download the alert manager from prometheus official website. For alertmanager to send email notification, need to do setup in the alertmanager.yml
 
-                         cat alertmanager.yml 
-                        global:
-                         resolve_timeout: 1m
+      $ cat alertmanager.yml 
+      global:
+       resolve_timeout: 1m
 
-                        route:
-                         receiver: 'email-notifications'
+      route:
+       receiver: 'email-notifications'
 
-                        receivers:
-                        - name: 'email-notifications'
-                          email_configs:
-                          - to: tdashpute@gamil.com
-                            from: test@gmail.com
-                            smarthost: smtp.gmail.com:587
-                            auth_username: tdashpute@gmail.com
-                            auth_identity: tdashpute@gmail.com
-                            auth_password: passorrd
-                            send_resolved: true
+      receivers:
+      - name: 'email-notifications'
+        email_configs:
+        - to: tdashpute@gamil.com
+          from: test@gmail.com
+          smarthost: smtp.gmail.com:587
+          auth_username: tdashpute@gmail.com
+          auth_identity: tdashpute@gmail.com
+          auth_password: PASSWORD
+          send_resolved: true
 
-                        inhibit_rules:
-                          - source_match:
-                              severity: 'critical'
-                            target_match:
-                              severity: 'warning'
-                            equal: ['alertname', 'dev', 'instance']
+      inhibit_rules:
+        - source_match:
+            severity: 'critical'
+          target_match:
+            severity: 'warning'
+          equal: ['alertname', 'dev', 'instance']
 
-wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
-tar xvfz alertmanager-0.23.0.linux-amd64.tar.gz
-mv alertmanager-0.23.0.linux-amd64.tar.gz alertmanager
-cd alertmanager
-./alertmanager &
+
+    wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
+    tar xvfz alertmanager-0.23.0.linux-amd64.tar.gz
+    mv alertmanager-0.23.0.linux-amd64.tar.gz alertmanager
+    cd alertmanager
+    ./alertmanager &
 
 ![image](https://user-images.githubusercontent.com/74225291/149608579-d4d25755-1d28-4454-a4d0-91c6a55632a2.png)
 
@@ -89,34 +90,33 @@ We will follow the way of downloading executable and then will do the configurat
 As we have already installed node-exporter and alert-manager we need to do intergrate it with prometheus.
 Also to get the alerts we need to create rule file and it to the prometheus configration.
 
-                 cat prometheus.yml 
-                # my global config
-                global:
-                  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-                  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-                  # scrape_timeout is set to the global default (10s).
+    # cat prometheus.yml 
+    # my global config
+    global:
+      scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+      evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+      # scrape_timeout is set to the global default (10s).
 
-                # This setup is added for alertmanager confiuration
-                alerting:
-                  alertmanagers:
-                  - static_configs:
-                    - targets:
-                      - 172.31.16.13:9093
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - 172.31.16.13:9093
 
-                # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-                rule_files:
-                  - "new_alert.rules.yml"
-                  # - "second_rules.yml"
+    # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+    rule_files:
+      - "new_alert.rules.yml"
+      # - "second_rules.yml"
 
-                # A scrape configuration containing exactly one endpoint to scrape:
-                # Here it's Prometheus itself.
-                scrape_configs:
-                  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-                  - job_name: 'prometheus'
-                    # metrics_path defaults to '/metrics'
-                    # scheme defaults to 'http'.
-                    static_configs:
-                    - targets: ['127.0.0.1:9090','127.0.0.1:9100',172.31.16.13:9100]
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: 'prometheus'
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+        static_configs:
+        - targets: ['127.0.0.1:9090',172.31.16.13:9100]
 
 
 a. Goto "https://github.com/prometheus" and search for prometheus.
