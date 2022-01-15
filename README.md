@@ -156,7 +156,29 @@ Now we can see it in alertmanager as well and we will get the mail notification 
 4. Install graphana
 
 If we want to see the visulatisation of all the metrcis we can install graphana as well. Once installation is done import 1860 chart.
+Just for a change I have installed graphana using Docker.
 
+    yum install docker -y
+    service docker start
+
+    docker run -d --name=grafana -p 3000:3000 grafana/grafana
+
+    # docker ps
+    CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+    af91668f8deb   grafana/grafana   "/run.sh"                3 days ago       Up 3 days       0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   grafana
+
+
+Once grafana is up and running open "http://HOST_IP:3000"
+
+Now goto configuration and add the prometheus host details to datasource.
+
+![image](https://user-images.githubusercontent.com/74225291/149609749-02c217eb-6f01-4d17-9bef-6788bd59fdf4.png)
+
+Import the chart 1860 which is for node-exporter.
+
+![image](https://user-images.githubusercontent.com/74225291/149609810-6f804c85-9da8-4fe8-a88f-f0530e551527.png)
+
+The final dashborard will look like this.
 
 ![image](https://user-images.githubusercontent.com/74225291/149608417-691f53fd-0d02-4bc6-a32d-36c4b6813ce0.png)
 
