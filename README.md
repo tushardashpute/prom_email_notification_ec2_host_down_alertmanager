@@ -166,6 +166,10 @@ Now we can see it in alertmanager as well and we will get the mail notification 
 
 ![image](https://user-images.githubusercontent.com/74225291/149609269-fdd8fb56-a1af-4a33-9198-83b47a0b453d.png)
 
+You will receive email like this:
+
+![image](https://user-images.githubusercontent.com/74225291/152950613-b1aa1cbd-bce4-4615-8063-4b8d82540c8f.png)
+
 
 4. Install graphana
 
