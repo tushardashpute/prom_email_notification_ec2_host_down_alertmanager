@@ -30,9 +30,9 @@ Steps
 
 Clone the Repo to /opt :
 
-cd /opt
-git clone https://github.com/tushardashpute/prom_email_notification_ec2_host_down_alertmanager.git
-mv prom_email_notification_ec2_host_down_alertmanager PROM
+    cd /opt
+    git clone https://github.com/tushardashpute/prom_email_notification_ec2_host_down_alertmanager.git
+    mv prom_email_notification_ec2_host_down_alertmanager PROM
  
  1. Install node-exporter
  
