@@ -38,12 +38,12 @@ mv prom_email_notification_ec2_host_down_alertmanager PROM
  
  To extract the metrics of ec2/linux instance we need to istall node-exporter on that instance, it will fetch the metrics at /metrics endpoint.
 
-    cd /opt/PROM
-    wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-    tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
-    mv  node_exporter-1.3.1.linux-amd64 node_exporter
-    cd node_exporter
-    ./node_exporter &
+      cd /opt/PROM
+      wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+      tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
+      mv  node_exporter-1.3.1.linux-amd64 node_exporter
+      cd node_exporter
+      ./node_exporter &
 
 Once node exporter is installed we can see metrics using : 
 
