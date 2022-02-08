@@ -27,6 +27,12 @@ Steps
                     |-- new_alert.rules.yml
                     `-- prometheus.yml
 
+
+Clone the Repo to /opt :
+
+cd /opt
+git clone https://github.com/tushardashpute/prom_email_notification_ec2_host_down_alertmanager.git
+mv prom_email_notification_ec2_host_down_alertmanager PROM
  
  1. Install node-exporter
  
@@ -45,7 +51,12 @@ Once node exporter is installed we can see metrics using :
 
 2. Install alert manager :
 
-Download the alert manager from prometheus official website. For alertmanager to send email notification, need to do setup in the alertmanager.yml
+Download the alert manager from prometheus official website. For alertmanager to send email notification, need to do setup in the alertmanager.yml.
+To send the notification using alertmanager you need to enable 2 step verification in your gmail account. Then goto setting and generate the password for app.
+https://support.google.com/accounts/answer/185833?hl=en follow this link for more details explaination.
+
+![image](https://user-images.githubusercontent.com/74225291/152950081-e01fa53b-b53a-4e3d-ae70-76ccd1d3f340.png)
+
 
       $ cat alertmanager.yml 
       global:
@@ -58,11 +69,11 @@ Download the alert manager from prometheus official website. For alertmanager to
       - name: 'email-notifications'
         email_configs:
         - to: tdashpute@gamil.com
-          from: test@gmail.com
+          from: tdashpute@gmail.com
           smarthost: smtp.gmail.com:587
           auth_username: tdashpute@gmail.com
           auth_identity: tdashpute@gmail.com
-          auth_password: PASSWORD
+          auth_password: Google_auth_token
           send_resolved: true
 
       inhibit_rules:
@@ -75,7 +86,8 @@ Download the alert manager from prometheus official website. For alertmanager to
 
     wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
     tar xvfz alertmanager-0.23.0.linux-amd64.tar.gz
-    mv alertmanager-0.23.0.linux-amd64.tar.gz alertmanager
+    mv alertmanager-0.23.0.linux-amd64 alertmanager
+    cp alertmanager.yaml alertmanager
     cd alertmanager
     ./alertmanager &
 
@@ -121,9 +133,11 @@ Also to get the alerts we need to create rule file and it to the prometheus conf
 
 a. Goto "https://github.com/prometheus" and search for prometheus.
 
-        git clone https://github.com/prometheus/prometheus.git
-        cd prometheus
-        make build
+        cd /opt/PROM
+        wget https://github.com/prometheus/prometheus/releases/download/v2.33.1/prometheus-2.33.1.linux-amd64.tar.gz
+        tar -xzvf prometheus-2.33.1.linux-amd64.tar.gz
+        mv prometheus-2.33.1.linux-amd64 prometheus
+        cp new_alert.rules.yml prometheus.yml prometheus
         ./prometheus --config.file=promethues.yml
        
  Open the port 9090 to access the prometheus.
